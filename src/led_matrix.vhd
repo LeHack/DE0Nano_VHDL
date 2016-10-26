@@ -1,21 +1,22 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-
 use work.machine_state_type.all;
 
 entity led_matrix is
     PORT (
         CLOCK_50        : IN STD_LOGIC;
-        CLK, DIN, CS    : OUT STD_LOGIC;
+        run, sleep      : IN STD_LOGIC;
+        input           : IN STD_LOGIC_VECTOR(15 downto 0);
         state           : BUFFER machine_state_type := initialize;
-        sclk            : BUFFER STD_LOGIC
+        sclk            : BUFFER STD_LOGIC;
+        CLK, DIN, CS    : OUT STD_LOGIC
     );
 END entity;
 
 architecture max7219 of led_matrix is
-    signal enable : STD_LOGIC := '0';
     signal data   : STD_LOGIC_VECTOR(15 downto 0);
+    signal enable : STD_LOGIC := '0';
 begin
     spi : entity work.spi_master GENERIC MAP (slaves => 1, d_width => 16) PORT MAP (
         clock => sclk, enable => enable, busy => CS, cont => '0',
@@ -34,39 +35,18 @@ begin
         end if;
     end process;
 
-    process(sclk)
-        variable addr  : unsigned(3 downto 0) := (others => '0');
-        variable blink : boolean := false;
-        procedure run_animation is
-            variable blnk   : STD_LOGIC := '0';
-        begin
-            -- refresh display
-            blink := not blink;
-            blnk  := To_Std_Logic(blink);
-            addr  := addr + 1; -- go over each row
-            data <= (
-                0 => not blnk, 1 => blnk, 2 => not blnk, 3 => blnk,
-                4 => blnk, 5 => not blnk, 6 => blnk, 7 => not blnk,
-                8 => addr(0), 9 => addr(1), 10 => addr(2), 11 => addr(3),
-                others => '0'
-            );
-            -- we've got 8 rows, so pause when the addr overflows
-            if addr = 8 then
-                blink := not blink;
-                state <= sleep;
-                addr := (others => '0');
-            end if;
-        end procedure run_animation;
-
+    process(sclk, state)
         variable sleep_cnt: unsigned(10 downto 0) := (others => '0');
-        procedure run_sleep is
+        function run_sleep return boolean is
+            variable result : boolean := false;
         begin
             -- take a break
             sleep_cnt := sleep_cnt + 1;
             if sleep_cnt = 0 then
-                state <= ready;
+                result := true;
             end if;
-        end procedure;
+            return(result);
+        end function;
 
         variable setup_step_cnt : integer := 13;
         type setup_procedure is array (0 to setup_step_cnt-1) of std_logic_vector(15 downto 0);
@@ -106,14 +86,26 @@ begin
         if rising_edge(sclk) then
             enable <= '0';
             if cnt = 0 then
-                enable <= '1';
+                if run = '1' then
+                    state <= execute;
+                    data <= input;
+                elsif sleep = '1' then
+                    state <= waiting;
+                end if;
                 CASE state IS
                     WHEN initialize =>
                         run_setup;
+                        enable <= '1';
                     WHEN ready =>
-                        run_animation;
-                    WHEN sleep =>
-                        run_sleep;
+                    WHEN execute =>
+                        enable <= '1';
+                        state <= busy;
+                    WHEN busy =>
+                        state <= ready;
+                    WHEN waiting =>
+                        if run_sleep then
+                            state <= ready;
+                        end if;
                 end CASE;
             end if;
             cnt := cnt + 1;
