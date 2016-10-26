@@ -73,7 +73,7 @@ BEGIN
       state <= ready;             --go to ready state when reset is exited
 
     ELSIF(clock'EVENT AND clock = '1') THEN
-		 CASE state IS               --state machine
+      CASE state IS               --state machine
         WHEN ready =>
           busy <= '0';             --clock out not busy signal
           ss_n <= (OTHERS => '1'); --set all slave select outputs high
