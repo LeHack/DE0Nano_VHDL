@@ -2,6 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use work.machine_state_type.all;
+
 entity TestMatrix is
 	PORT (
 		CLOCK_50		 : IN STD_LOGIC;
@@ -10,30 +12,6 @@ entity TestMatrix is
 END entity;
 
 architecture rtl of TestMatrix is
-	component spi_master IS
-		GENERIC(
-			slaves  : INTEGER := 1; --number of spi slaves
-			d_width : INTEGER	:= 16  --data bus width
-		);
-		PORT(
-			clock   : IN     STD_LOGIC;                             --system clock
-			reset_n : IN     STD_LOGIC;                             --asynchronous reset
-			enable  : IN     STD_LOGIC;                             --initiate transaction
-			cpol    : IN     STD_LOGIC;                             --spi clock polarity
-			cpha    : IN     STD_LOGIC;                             --spi clock phase
-			cont    : IN     STD_LOGIC;                             --continuous mode command
-			clk_div : IN     INTEGER;                               --system clock cycles per 1/2 period of sclk
-			addr    : IN     INTEGER;                               --address of slave
-			tx_data : IN     STD_LOGIC_VECTOR(d_width-1 DOWNTO 0);  --data to transmit
-			miso    : IN     STD_LOGIC;                             --master in, slave out
-			sclk    : BUFFER STD_LOGIC;                             --spi clock
-			ss_n    : BUFFER STD_LOGIC_VECTOR(slaves-1 DOWNTO 0);   --slave select
-			mosi    : OUT    STD_LOGIC;                             --master out, slave in
-			busy    : OUT    STD_LOGIC;                             --busy / data ready signal
-			rx_data : OUT    STD_LOGIC_VECTOR(d_width-1 DOWNTO 0)	  --data received
-		);
-	END component;
-
 	signal cnt	    : unsigned(19 downto 0);
 	signal sclk_cnt : unsigned(3 downto 0);
 	signal sclk, blnk : STD_LOGIC := '0';
@@ -42,20 +20,10 @@ architecture rtl of TestMatrix is
 	signal enable : STD_LOGIC := '0';
 	signal data   : STD_LOGIC_VECTOR(15 DOWNTO 0);
 	shared variable blink, normal_op, intens_set, decode_set, scan_set, disp_test_set : boolean := false;
-
-	function To_Std_Logic(L: BOOLEAN) return std_logic is
-	begin
-		if L then
-			return('1');
-		else
-			return('0');
-		end if;
-	end function To_Std_Logic;
-
 begin
-	spi : spi_master PORT MAP (
+	spi : entity work.spi_master GENERIC MAP (slaves => 1, d_width => 16) PORT MAP (
 		clock => sclk, enable => enable, busy => load_sig, cont => '0',
-		reset_n => '1', cpol => '1', cpha => '0', addr => 0,
+		reset_n => '1', cpol => '0', cpha => '0', addr => 0,
 		tx_data => data, miso => 'Z', mosi => data_sig, sclk => clk_sig, clk_div => 0
 	);
 
@@ -75,7 +43,7 @@ begin
 			enable <= '0';
 			CLK  <= clk_sig;
 			LED4 <= clk_sig;
-			CS <= not load_sig;
+			CS <= load_sig;
 			DIN <= data_sig;
 			LED3 <= data_sig;
 			LED2 <= load_sig;
