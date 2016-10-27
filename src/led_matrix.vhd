@@ -32,6 +32,9 @@ begin
             if sclk_cnt = 0 then
                 sclk <= not sclk;
             end if;
+            -- currently the sclk drives the bit-sending mechanism performed by spi_master
+            -- we could add a second virtual 17-pulse clk signal that would handle sending
+            -- the whole 16 bits + 1 bit of silence, thus eliminating the need for the cnt in the process below
         end if;
     end process;
 
