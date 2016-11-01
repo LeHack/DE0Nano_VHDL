@@ -6,17 +6,18 @@ use work.machine_state_type.all;
 entity led_matrix is
     PORT (
         CLOCK_50        : IN STD_LOGIC;
-        run, sleep      : IN STD_LOGIC;
         input           : IN STD_LOGIC_VECTOR(15 downto 0);
+        run             : IN STD_LOGIC := '0';
+        sleep           : IN unsigned(24 downto 0) := (others => '0');
         state           : BUFFER machine_state_type := initialize;
-        sclk            : BUFFER STD_LOGIC;
+        virt_clk        : BUFFER STD_LOGIC := '0';
         CLK, DIN, CS    : OUT STD_LOGIC
     );
 END entity;
 
 architecture max7219 of led_matrix is
-    signal data   : STD_LOGIC_VECTOR(15 downto 0);
-    signal enable : STD_LOGIC := '0';
+    signal data         : STD_LOGIC_VECTOR(15 downto 0);
+    signal enable, sclk : STD_LOGIC := '0';
 begin
     spi : entity work.spi_master GENERIC MAP (slaves => 1, d_width => 16) PORT MAP (
         clock => sclk, enable => enable, busy => CS, cont => '0',
@@ -25,26 +26,29 @@ begin
     );
 
     process(CLOCK_50)
-        variable sclk_cnt  : unsigned(5 downto 0);
+        variable sclk_cnt, vclk_cnt : unsigned(5 downto 0) := (others => '0');
     begin
+        -- the sclk drives the bit-sending mechanism performed by spi_master
+        -- the virt_clk drives logic level operations
         if rising_edge(CLOCK_50) then
             sclk_cnt := sclk_cnt + 1;
             if sclk_cnt = 0 then
                 sclk <= not sclk;
+                vclk_cnt := vclk_cnt + 1;
+                if vclk_cnt = 0 then
+                    virt_clk <= not virt_clk;
+                end if;
             end if;
-            -- currently the sclk drives the bit-sending mechanism performed by spi_master
-            -- we could add a second virtual 17-pulse clk signal that would handle sending
-            -- the whole 16 bits + 1 bit of silence, thus eliminating the need for the cnt in the process below
         end if;
     end process;
 
-    process(sclk, state)
-        variable sleep_cnt: unsigned(10 downto 0) := (others => '0');
+    process(virt_clk, state)
+        variable sleep_cnt: unsigned(24 downto 0) := (others => '0');
         function run_sleep return boolean is
             variable result : boolean := false;
         begin
             -- take a break
-            sleep_cnt := sleep_cnt + 1;
+            sleep_cnt := sleep_cnt - 1;
             if sleep_cnt = 0 then
                 result := true;
             end if;
@@ -83,35 +87,31 @@ begin
                 state <= ready;
             end if;
         end procedure run_setup;
-
-        variable cnt : unsigned(5 downto 0);
     begin
-        if rising_edge(sclk) then
+        if rising_edge(virt_clk) then
             enable <= '0';
-            if cnt = 0 then
-                if run = '1' then
-                    state <= execute;
-                    data <= input;
-                elsif sleep = '1' then
-                    state <= waiting;
-                end if;
-                CASE state IS
-                    WHEN initialize =>
-                        run_setup;
-                        enable <= '1';
-                    WHEN ready =>
-                    WHEN execute =>
-                        enable <= '1';
-                        state <= busy;
-                    WHEN busy =>
-                        state <= ready;
-                    WHEN waiting =>
-                        if run_sleep then
-                            state <= ready;
-                        end if;
-                end CASE;
+            if state /= waiting and sleep > 0 then
+                state <= waiting;
+                sleep_cnt := sleep;
+            elsif state /= execute and run = '1' then
+                state <= execute;
+                data <= input;
             end if;
-            cnt := cnt + 1;
+            CASE state IS
+                WHEN initialize =>
+                    run_setup;
+                    enable <= '1';
+                WHEN execute =>
+                    enable <= '1';
+                    state <= busy;
+                WHEN busy =>
+                    state <= ready;
+                WHEN waiting =>
+                    if run_sleep then
+                        state <= ready;
+                    end if;
+                WHEN ready => -- nothing happens here
+            end CASE;
         end if;
     end process;
 end max7219;
