@@ -53,10 +53,12 @@ begin
             end if;
         end procedure run_animation;
     begin
+        -- check if state allows us to do anything
         if rising_edge(virt_clk) then
             if state = ready and run = '0' and sleep = 0 then
                 run_animation;
-            elsif state /= ready then
+            elsif run = '1' or sleep > 0 then
+                -- reset control signals
                 run   <= '0';
                 sleep := (others => '0');
             end if;
