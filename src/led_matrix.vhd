@@ -26,7 +26,8 @@ begin
     );
 
     process(CLOCK_50)
-        variable sclk_cnt, vclk_cnt : unsigned(5 downto 0) := (others => '0');
+        variable sclk_cnt : unsigned(3 downto 0) := (others => '0');
+        variable vclk_cnt : integer range 0 to 32 := 0;
     begin
         -- the sclk drives the bit-sending mechanism performed by spi_master
         -- the virt_clk drives logic level operations

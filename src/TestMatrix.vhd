@@ -27,7 +27,7 @@ begin
         variable addr  : unsigned(3 downto 0) := (0 => '1', others => '0');
         procedure run_animation is
             variable blnk       : STD_LOGIC := '0';
-            constant sleep_time : unsigned(10 downto 0) := (others => '1');
+            constant sleep_time : unsigned(12 downto 0) := (others => '1');
         begin
             -- we've got 8 rows
             if addr <= 8 then
