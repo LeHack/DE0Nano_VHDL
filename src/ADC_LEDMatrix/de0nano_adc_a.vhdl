@@ -18,11 +18,11 @@ begin
         variable init_delay: unsigned(2 downto 0) := (others => '0');
     begin
         if rising_edge(virt_clk) then
+            -- don't wait an extra virt_clk on run
+            if state = ready and run = '1' then
+                state <= execute;
+            end if;
             CASE state IS
-                WHEN ready =>
-                    if run = '1' then
-                        state <= execute;
-                    end if;
                 WHEN initialize =>
                     init_delay := init_delay + 1;
                     if init_delay = 0 then
@@ -34,17 +34,17 @@ begin
                         enable <= '1';
                     end if;
                     spi_comm_delay := spi_comm_delay + 1;
-                    -- after 4 ticks, remove the enable flag, to make sure spi_master stops after the read
-                    if spi_comm_delay = 4 then
+                    -- after 3 ticks, remove the enable flag, to make sure spi_driver stops after the read
+                    if spi_comm_delay = 3 then
                         enable <= '0';
-                    -- we need 32 spi_clk ticks to generate 16 sclk ticks
-                    -- we should also add a little pause
-                    elsif spi_comm_delay = 40 then
+                    -- we need 7 virt_clk ticks to make sure SPI comms finished
+                    elsif spi_comm_delay = 7 then
                         state <= ready;
                         -- reset counter
                         spi_comm_delay := (others => '0');
                     end if;
-                WHEN busy => -- not used
+                WHEN busy =>  -- not used
+                WHEN ready => -- not used
             end CASE;
         end if;
     end process;
