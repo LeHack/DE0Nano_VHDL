@@ -1,17 +1,4 @@
 -- synthesis library utils
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
-use work.machine_state_type.all;
-
--- the virt_clk drives logic level operations
-entity virtual_clock is
-    PORT (
-        CLOCK_50 : IN STD_LOGIC;
-        virt_clk : BUFFER STD_LOGIC := '0'
-    );
-END entity;
-
 architecture vclock of virtual_clock is
 begin
     process(CLOCK_50)
