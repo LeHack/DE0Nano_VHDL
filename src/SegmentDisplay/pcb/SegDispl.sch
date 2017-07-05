@@ -1,0 +1,419 @@
+EESchema Schematic File Version 2
+LIBS:segdispl
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:SegDispl-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "4x 7-segment display controller"
+Date "2017-07-01"
+Rev ""
+Comp "AGH"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L 74HC4053 U2
+U 1 1 595770CE
+P 6154 4806
+F 0 "U2" H 6744 4866 60  0000 C CNN
+F 1 "74HC4053" H 6484 3576 60  0000 C CNN
+F 2 "SegDispl:74HC4053" H 6584 4006 60  0001 C CNN
+F 3 "" H 6584 4006 60  0001 C CNN
+	1    6154 4806
+	1    0    0    -1  
+$EndComp
+$Comp
+L 74HC4053 U3
+U 1 1 5957754E
+P 6122 1878
+F 0 "U3" H 6712 1938 60  0000 C CNN
+F 1 "74HC4053" H 6452 648 60  0000 C CNN
+F 2 "SegDispl:74HC4053" H 6552 1078 60  0001 C CNN
+F 3 "" H 6552 1078 60  0001 C CNN
+	1    6122 1878
+	1    0    0    -1  
+$EndComp
+$Comp
+L FJ-5461BH U4
+U 1 1 5957766B
+P 6802 3392
+F 0 "U4" H 7532 3442 60  0000 C CNN
+F 1 "FJ-5461BH" H 7192 2272 60  0000 C CNN
+F 2 "SegDispl:FJ-5461BH" H 6232 3002 60  0001 C CNN
+F 3 "" H 6232 3002 60  0001 C CNN
+	1    6802 3392
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X09 J1
+U 1 1 595778F0
+P 3050 3412
+F 0 "J1" H 3050 3812 50  0000 C CNN
+F 1 "CONN_01X09" V 3150 3412 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x09_Pitch2.00mm" H 3050 3412 50  0001 C CNN
+F 3 "" H 3050 3412 50  0001 C CNN
+	1    3050 3412
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R3
+U 1 1 59578911
+P 7526 2078
+F 0 "R3" V 7606 2078 50  0000 C CNN
+F 1 "650" V 7526 2078 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical" V 7456 2078 50  0001 C CNN
+F 3 "" H 7526 2078 50  0001 C CNN
+	1    7526 2078
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R4
+U 1 1 59578B4B
+P 7706 2438
+F 0 "R4" V 7786 2438 50  0000 C CNN
+F 1 "650" V 7706 2438 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical" V 7636 2438 50  0001 C CNN
+F 3 "" H 7706 2438 50  0001 C CNN
+	1    7706 2438
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R2
+U 1 1 59578B86
+P 7460 5516
+F 0 "R2" V 7540 5516 50  0000 C CNN
+F 1 "650" V 7460 5516 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical" V 7390 5516 50  0001 C CNN
+F 3 "" H 7460 5516 50  0001 C CNN
+	1    7460 5516
+	0    1    1    0   
+$EndComp
+$Comp
+L R R1
+U 1 1 59578BD4
+P 7460 5156
+F 0 "R1" V 7540 5156 50  0000 C CNN
+F 1 "650" V 7460 5156 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical" V 7390 5156 50  0001 C CNN
+F 3 "" H 7460 5156 50  0001 C CNN
+	1    7460 5156
+	0    1    1    0   
+$EndComp
+$Comp
+L 74HC595-2 U1
+U 1 1 5957B398
+P 4452 3464
+F 0 "U1" H 5002 3514 50  0000 C CNN
+F 1 "74HC595-2" H 4852 2314 50  0000 C CNN
+F 2 "SegDispl:74HC595" H 4852 2914 50  0001 C CNN
+F 3 "" H 4852 2914 50  0001 C CNN
+	1    4452 3464
+	1    0    0    -1  
+$EndComp
+Entry Wire Line
+	5816 1898 5916 1998
+Entry Wire Line
+	5816 2018 5916 2118
+Text Label 5922 2118 2    60   ~ 0
+D4S
+Text Label 5922 1998 2    60   ~ 0
+D3S
+Text Label 5954 5046 2    60   ~ 0
+D2S
+Entry Wire Line
+	7076 3512 7176 3412
+Entry Wire Line
+	7076 3632 7176 3532
+Entry Wire Line
+	7076 3742 7176 3642
+Entry Wire Line
+	7076 3862 7176 3762
+Text Label 7076 3862 0    60   ~ 0
+Dig4
+Text Label 7076 3742 0    60   ~ 0
+Dig3
+Text Label 7076 3632 0    60   ~ 0
+Dig2
+Text Label 7076 3512 0    60   ~ 0
+Dig1
+Entry Wire Line
+	5812 4826 5912 4926
+Text Label 5954 4926 2    60   ~ 0
+D1S
+NoConn ~ 5954 5156
+NoConn ~ 5552 4464
+Text Label 3610 4410 2    60   ~ 0
+GND
+Text Label 4970 2440 2    60   ~ 0
+VDD
+NoConn ~ 6982 1998
+NoConn ~ 6982 2348
+NoConn ~ 6982 2708
+NoConn ~ 7014 4926
+NoConn ~ 7014 5276
+NoConn ~ 7014 5636
+NoConn ~ 7014 5756
+NoConn ~ 7014 5876
+Entry Wire Line
+	3462 3112 3562 3212
+Entry Wire Line
+	3462 3212 3562 3312
+Entry Wire Line
+	3462 3312 3562 3412
+Entry Wire Line
+	3462 3412 3562 3512
+Text Label 3252 3112 0    60   ~ 0
+D4S
+Text Label 3252 3212 0    60   ~ 0
+D3S
+Text Label 3252 3312 0    60   ~ 0
+D2S
+Text Label 3250 3412 0    60   ~ 0
+D1S
+Entry Wire Line
+	7076 5046 7176 4946
+Text Label 7014 5046 0    60   ~ 0
+Dig1
+Entry Wire Line
+	7076 2118 7176 2018
+Entry Wire Line
+	7076 2468 7176 2368
+Text Label 7074 2468 0    60   ~ 0
+Dig4
+Text Label 7074 2118 0    60   ~ 0
+Dig3
+Text Label 7016 5396 0    60   ~ 0
+Dig2
+Wire Wire Line
+	4970 3010 3738 3012
+Wire Wire Line
+	3738 3012 3250 3012
+Wire Wire Line
+	4970 1570 4970 3010
+Wire Wire Line
+	4970 1570 8240 1570
+Wire Wire Line
+	8240 1570 8240 5516
+Wire Wire Line
+	5922 2588 4970 2588
+Connection ~ 4970 2588
+Wire Wire Line
+	6982 2228 7526 2228
+Wire Wire Line
+	6982 2588 7706 2588
+Wire Wire Line
+	7014 5156 7310 5156
+Wire Wire Line
+	3738 3012 3738 5516
+Connection ~ 3738 3012
+Wire Wire Line
+	3738 5516 5954 5516
+Connection ~ 3738 4394
+Wire Wire Line
+	8240 5156 7610 5156
+Wire Bus Line
+	7176 2018 7176 5296
+Wire Wire Line
+	5916 1998 5922 1998
+Wire Wire Line
+	5916 2118 5922 2118
+Wire Wire Line
+	7002 3512 7076 3512
+Wire Wire Line
+	7002 3632 7076 3632
+Wire Wire Line
+	7002 3742 7076 3742
+Wire Wire Line
+	7002 3862 7076 3862
+Wire Wire Line
+	5912 4926 5954 4926
+Wire Wire Line
+	3610 5866 5954 5866
+Wire Wire Line
+	3610 3036 3610 5866
+Wire Wire Line
+	3610 3812 3250 3812
+Wire Wire Line
+	3610 4494 4254 4494
+Connection ~ 3610 4494
+Wire Wire Line
+	5954 5756 5870 5756
+Wire Wire Line
+	5870 5636 5870 5866
+Connection ~ 5870 5866
+Wire Wire Line
+	5954 5636 5870 5636
+Connection ~ 5870 5756
+Wire Wire Line
+	4996 2938 5922 2938
+Wire Wire Line
+	4996 2938 4996 3036
+Wire Wire Line
+	4996 3036 3610 3036
+Connection ~ 3610 3812
+Wire Wire Line
+	5922 2828 5868 2828
+Wire Wire Line
+	5868 2708 5868 2938
+Wire Wire Line
+	5922 2708 5868 2708
+Connection ~ 5868 2828
+Wire Bus Line
+	3562 4706 5812 4706
+Wire Bus Line
+	3562 3066 3562 4706
+Wire Bus Line
+	5816 3066 3562 3066
+Wire Bus Line
+	5816 1898 5816 3066
+Wire Bus Line
+	5812 4706 5812 4946
+Wire Wire Line
+	3250 3112 3462 3112
+Wire Wire Line
+	3250 3212 3462 3212
+Wire Wire Line
+	3250 3312 3462 3312
+Wire Wire Line
+	3250 3412 3462 3412
+Wire Wire Line
+	3250 3512 3436 3512
+Wire Wire Line
+	3436 3512 3436 3564
+Wire Wire Line
+	3436 3564 4152 3564
+Wire Wire Line
+	3250 3612 4082 3612
+Wire Wire Line
+	4082 3612 4082 3764
+Wire Wire Line
+	4082 3764 4152 3764
+Wire Wire Line
+	3250 3712 4026 3712
+Wire Wire Line
+	4026 3712 4026 4064
+Wire Wire Line
+	4026 4064 4152 4064
+Wire Wire Line
+	4152 3864 4076 3864
+Wire Wire Line
+	4076 3864 4076 4394
+Connection ~ 4076 4394
+Connection ~ 4134 4494
+Wire Wire Line
+	7014 5046 7076 5046
+Wire Wire Line
+	6982 2118 7076 2118
+Wire Wire Line
+	6982 2468 7076 2468
+Wire Wire Line
+	5552 3564 5674 3564
+Wire Wire Line
+	5674 3564 5674 3512
+Wire Wire Line
+	5674 3512 5812 3512
+Wire Wire Line
+	5552 3664 5674 3664
+Wire Wire Line
+	5674 3664 5674 3632
+Wire Wire Line
+	5674 3632 5812 3632
+Wire Wire Line
+	5552 3764 5674 3764
+Wire Wire Line
+	5674 3764 5674 3742
+Wire Wire Line
+	5674 3742 5812 3742
+Wire Wire Line
+	5552 3864 5674 3864
+Wire Wire Line
+	5674 3864 5674 3862
+Wire Wire Line
+	5674 3862 5812 3862
+Wire Wire Line
+	5552 3964 5674 3964
+Wire Wire Line
+	5674 3964 5674 3982
+Wire Wire Line
+	5674 3982 5812 3982
+Wire Wire Line
+	5552 4064 5674 4064
+Wire Wire Line
+	5674 4064 5674 4102
+Wire Wire Line
+	5674 4102 5812 4102
+Wire Wire Line
+	5552 4164 5674 4164
+Wire Wire Line
+	5674 4164 5674 4222
+Wire Wire Line
+	5674 4222 5812 4222
+Wire Wire Line
+	5552 4264 5674 4264
+Wire Wire Line
+	5674 4264 5674 4342
+Wire Wire Line
+	5674 4342 5812 4342
+Wire Wire Line
+	3738 4394 4254 4394
+Wire Wire Line
+	7526 1928 7526 1570
+Connection ~ 7526 1570
+Wire Wire Line
+	7706 2288 7706 1570
+Connection ~ 7706 1570
+Wire Wire Line
+	4134 4164 4134 4494
+Wire Wire Line
+	4134 4164 4152 4164
+Connection ~ 5868 2938
+NoConn ~ 5922 2228
+Wire Wire Line
+	5912 5046 5954 5046
+Entry Wire Line
+	5812 4946 5912 5046
+Wire Wire Line
+	7014 5516 7310 5516
+Wire Wire Line
+	8240 5516 7610 5516
+Connection ~ 8240 5156
+NoConn ~ 6982 2828
+NoConn ~ 6982 2948
+Entry Wire Line
+	7076 5396 7176 5296
+Wire Wire Line
+	7014 5396 7076 5396
+$EndSCHEMATC

@@ -1,0 +1,48 @@
+126 L14 e	Q0
+127 N14 d	Q1
+128 M10 DP	Q2
+129 L13 c	Q3
+130 J16 g	Q4
+
+131 K15 b	Q5
+
+
+132 J13 f	Q6
+133 J14 a	Q7
+
+[ - g - DP ]
+e - d - c - b - a - f 
+
+SEGMENT DISPLAY
+SHCP - PIN 11 CLK   GPIO_14  R13  pom.  - szary
+STCP - PIN 12 LATCH GPIO_17  T11  nieb. - brązowy
+DS   - PIN 14 DATA  GPIO_16  R12  zółty - biały
+
+74HC4053 #1
+S1 - PIN 11 - MLTPLX_CH 0 - GPIO_18  - T10 - czerwony
+S2 - PIN 10 - MLTPLX_CH 1 - GPIO_19  - R11 - pomarańczowy
+
+74HC4053 #2
+S1 - PIN  9 - MLTPLX_CH 2 - GPIO_110 - P11 - żółty
+S2 - PIN 11 - MLTPLX_CH 3 - GPIO_111 - R10 - zielony
+
+Reg to segments
+e  0
+d  1
+DP 2
+c  3
+g  4
+b  5
+f  6
+a  7
+
+Q1 e
+Q2 d
+Q3 DP
+Q4 c
+Q5 g
+Q6 b
+Q7 f
+Q8 a
+1: bc    : 11010111
+2: abged : 01001100
