@@ -1,6 +1,6 @@
 # 4 digit 8 segment display (FJ-5461BH) example usage in VHDL
 
-Simple proof of concept on how to manipulate a 4 digit display (7 segment + DP) using an FPGA, a 8-bit SIPO register and two 3-channel multiplexers.
+Simple proof of concept on how to manipulate a 4 digit display (7 segment + DP) using a FPGA (7 pins), a 8-bit SIPO register and two 3-channel multiplexers.
 
 ### Notes:
 
