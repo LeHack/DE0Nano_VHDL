@@ -22,5 +22,15 @@ Below is a circuit and pcb design that can be used with this example:
 ![Circuit](pcb/circuit.png)
 ![pcb](pcb/pcb.png)
 
+Example pin mapping for the above circuit and a DE0 Nano (GPIO-1):
+* PIN 1: GND
+* PIN 2: GPIO_17
+* PIN 3: GPIO_14
+* PIN 4: GPIO_16
+* PIN 5: GPIO_18
+* PIN 6: GPIO_19
+* PIN 7: GPIO_110
+* PIN 8: GPIO_111
+* PIN 9: VCC
 
 In order to run a simulation, set the Library (in project files properties) to "utils" for all files added from within the "utils" subdirectory.
